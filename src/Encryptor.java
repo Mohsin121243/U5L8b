@@ -35,12 +35,13 @@ public class Encryptor
     public void fillBlock(String str)
     {
         int subString = 0;
-      for(int i = 0; subString < str.length();i++){
+      for(int i = 0; i < numRows;i++){
           for(int j = 0; j < letterBlock[i].length;j++){
               if(subString<str.length()) {
                   letterBlock[i][j] = str.substring(subString, subString + 1);
                   subString++;
               }
+
           }
       }
       for(int n = 0; n < letterBlock.length;n++){
@@ -111,15 +112,20 @@ public class Encryptor
      */
     public String decryptMessage(String encryptedMessage)
     {
-        String newMessage = "";
-        for(int i = 0; i<encryptedMessage.length()-numRows-1;i++) {
-            int temp = i;
-            while (newMessage.length() < encryptedMessage.length() - (numRows - 1)) {
-                newMessage += encryptedMessage.substring(i, i + 1) + encryptedMessage.substring(i + numRows - 1, i + numRows);
-                i += numRows - 1;
-            }
-            i = temp;
+        ArrayList<String> temp = new ArrayList<>();
+        String decrypt= "";
+        for(int i = 0; i < encryptedMessage.length();i++){
+            temp.add(encryptedMessage.substring(i,i+1));
         }
-        return newMessage;
+        for(int j = 0; j<temp.size();j++){
+            int i = 0;
+            decrypt+=temp.get(j);
+            while(i-numRows-1 < temp.size()-(numRows-1)){
+                if(j+numRows-1 < temp.size()){
+                decrypt += temp.get(j+numRows-1);
+                i +=j+numRows-1;}
+            }
+        }
+        return decrypt;
     }
 }
